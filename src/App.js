@@ -9,7 +9,11 @@ import tiga from "./img/03.jpg";
 import empat from "./img/04.jpg";
 import lima from "./img/05.jpg";
 import enam from "./img/06.jpg";
-// import axios from "axios";
+import axios from "axios";
+
+const api = axios.create({
+  baseURL: "https://5f298598a1b6bf0016ead7b5.mockapi.io/nikah/mempelai",
+});
 
 const MOCK = {
   mempelai: {
@@ -48,15 +52,31 @@ const MOCK = {
 };
 
 class App extends React.Component {
+  state = {
+    nikah: [],
+  };
+  constructor() {
+    super();
+    api.get("/").then((res) => {
+      console.log(res.data);
+      this.setState({ nikah: res.data });
+    });
+  }
+
   render() {
     return (
       <div className={style.body}>
+        ))}
         <center>
           <img className={style.header} src={header} alt="header" />
         </center>
         <body>
           <div className={style.pengantin}>
-            {MOCK.mempelai.pria} & {MOCK.mempelai.wanita}
+            {this.state.nikah.map((nikah) => (
+              <div key={nikah.id}>
+                {nikah.pria} & {nikah.wanita}
+              </div>
+            ))}{" "}
             <div className={style.acara}>{MOCK.akad.tanggal}</div>
           </div>
           <div>
@@ -109,12 +129,57 @@ class App extends React.Component {
           </div>
 
           <div className={style.ucapan}>
-            <div className={style.ucapan}>
+            <div className={style.ucapan1}>
               Nama <input type="text"></input>
               <br></br>
               Ucapan <input type="text"></input>
             </div>
+            <button onClick>Submit</button>
             <div className={style.boxUcapan}></div>
+          </div>
+
+          <div>
+            <div>
+              <p>Pengantin pria</p> <input type="text"></input>
+            </div>
+            <div>
+              <p>Pengantin wanita</p> <input type="text"></input>
+              <div></div>
+            </div>
+            <div>
+              <p>Akad</p> <input type="text"></input>
+            </div>
+            <div>
+              <p>lokasi</p> <input type="text"></input>
+            </div>
+            <div>
+              <p>tanggal</p> <input type="text"></input>
+            </div>
+            <div>
+              <p>jam</p> <input type="text"></input>
+            </div>
+            <div></div>
+            <div>
+              <p>resepsi</p> <input type="text"></input>
+            </div>
+            <div>
+              <p>lokasi</p> <input type="text"></input>
+            </div>
+            <div>
+              <p>tanggal</p> <input type="text"></input>
+            </div>
+            <div>
+              <p>jam</p> <input type="text"></input>
+            </div>
+            <div></div>
+            <div>ucapan</div>
+            <div>
+              <p>Nama</p> <input type="text"></input>
+            </div>
+            <div>
+              <p>Ucapan</p> <input type="text"></input>
+            </div>
+            <button onClick>Submit</button>
           </div>
         </body>
       </div>
